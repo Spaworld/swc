@@ -20,6 +20,10 @@ group :development do
   gem 'web-console', '~> 2.0'
 end
 
+group :test do
+  gem 'fantaskspec'
+end
+
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'pry-rails'
 gem 'activerecord-import'
