@@ -12,5 +12,8 @@
 !/log/.keep
 /tmp
 
-
+# Ignore local csvs
 /lib/csvs/*
+
+# Ignore env vars
+.env
