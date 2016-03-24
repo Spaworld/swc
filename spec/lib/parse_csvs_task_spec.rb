@@ -1,6 +1,8 @@
 require 'rails_helper'
 
-describe 'parse_csvs task' do
+RSpec.describe 'db:parse_csvs', type: :rake do
+
+  it { is_expected.to depend_on(:environment) }
 
   it 'finds csvs' do
     pending 'init'
