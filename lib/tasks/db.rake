@@ -5,4 +5,9 @@ namespace :db do
     puts "all good"
   end
 
+  def exectute_statement(sql)
+    results = ActiveRecord::Base.connection.execute(sql)
+    results.present? ? results : nil
+  end
+
 end

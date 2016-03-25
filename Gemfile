@@ -27,3 +27,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'pry-rails'
 gem 'activerecord-import'
+
+gem 'tiny_tds'
+gem 'activerecord-sqlserver-adapter', '~> 4.2.0'
+
