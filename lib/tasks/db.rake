@@ -5,7 +5,6 @@ namespace :db do
     table = ENV['ORDERS_TABLE_NAME']
     options = "WHERE #{ENV['ORDER_DETAILS_ORDERS_FOREIGN_KEY']} IN (#{ENV['SELECTED_CHANNELS']}) AND #{ENV['ORDERS_IS_RETURN']}=0"
     RemoteDbConnector.generate_query(table, columns, options)
-    puts RemoteDbConnector.generated_query
   end
 end
 
