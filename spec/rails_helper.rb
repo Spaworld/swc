@@ -9,6 +9,9 @@ require 'rspec/rails'
 require "fantaskspec"
 # adds 'FFaker'
 require 'ffaker'
+
+DatabaseCleaner.clean_with :truncation
+DatabaseCleaner.strategy = :transaction
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -33,6 +36,9 @@ ActiveRecord::Migration.maintain_test_schema!
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
+
+  # Include FactoryGirl syntax
+  config.include FactoryGirl::Syntax::Methods
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
@@ -61,7 +67,17 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
 end
 
 # preload rake tasks
 Rails.application.load_tasks
+
+# 'require' everything in the /lib folder
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }

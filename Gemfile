@@ -14,6 +14,7 @@ group :development, :test do
   gem 'byebug'
   gem 'rspec-rails', '~> 3.4', '>= 3.4.2'
   gem 'dotenv-rails'
+  gem 'factory_girl_rails', '~> 4.0'
 end
 
 group :development do
@@ -24,6 +25,7 @@ end
 group :test do
   gem 'fantaskspec'
   gem 'ffaker', '~> 2.0'
+  gem 'database_cleaner', '~> 1.5', '>= 1.5.1'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
