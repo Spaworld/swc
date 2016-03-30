@@ -21,7 +21,7 @@ class RemoteDbConnector < ActiveRecord::Base
 
     def execute_query(generated_query)
       return if generated_query.nil?
-      connect_to_remote_db unless connected_to_remote_db? && ENV['DATABASE_PASSWORD'].present?
+      connect_to_remote_db unless connected_to_remote_db? && ENV['DATABASE_PASSWORD'].nil?
       @raw_results = connection.select_all(generated_query)
     end
 
