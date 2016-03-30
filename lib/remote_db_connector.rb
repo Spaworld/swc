@@ -15,7 +15,7 @@ class RemoteDbConnector < ActiveRecord::Base
 
       table   = escape_sql(table)
       columns = columns.length > 1 ? columns.join(',') : escape_sql(columns)
-      options = options.empty? ? ';' : " #{options} ;"
+      options = options.empty? ? ' ;' : " #{options} ;"
       @generated_query = "SELECT #{columns} FROM #{table}" + options
     end
 

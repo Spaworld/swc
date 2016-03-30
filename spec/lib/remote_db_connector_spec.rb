@@ -11,5 +11,11 @@ describe RemoteDbConnector do
         "SELECT #{columns.join(',')} FROM #{table} #{options} ;"
       )
     end
+    it 'without the \'options\' string' do
+      RemoteDbConnector.generate_query(table, columns)
+      expect(RemoteDbConnector.generated_query).to eq(
+        "SELECT #{columns.join(',')} FROM #{table} ;"
+      )
+    end
   end
 end
