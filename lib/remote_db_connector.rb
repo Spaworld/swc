@@ -1,5 +1,4 @@
 class RemoteDbConnector < ActiveRecord::Base
-
   self.abstract_class = true
 
   class << self
@@ -23,7 +22,5 @@ class RemoteDbConnector < ActiveRecord::Base
     def escape_sql(value)
       send(:sanitize_sql_array, value)
     end
-
   end
-
 end
