@@ -17,3 +17,14 @@
 
 # Ignore env vars
 .env
+
+
+# Ignore 'runner' tests
+runner_stuff.rb
+
+# Ignore Rubocop config
+.rubocop.yml
+
+# Ignore proj files
+swc.sublime-project
+swc.sublime-workspace
