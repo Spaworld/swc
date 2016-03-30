@@ -19,6 +19,19 @@ class RemoteDbConnector < ActiveRecord::Base
       @generated_query = "SELECT #{columns} FROM #{table}" + options
     end
 
+    def execute_query
+      connect_to_remote_db unless connected? || Rails.env.test?
+      @raw_results = connection.select_all(@generated_query)
+    end
+
+    def connect_to_remote_db
+      establish_connection(:remote_db)
+    end
+
+    def connected_to_remote_db?
+      connection_config.values[3] == ENV['DATABASE_NAME']
+    end
+
     def escape_sql(value)
       send(:sanitize_sql_array, value)
     end
