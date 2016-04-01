@@ -6,7 +6,17 @@ describe RemoteDbConnector do
   let(:table)             { FFaker::Lorem.word }
   let(:generated_query)   { "SELECT #{columns.join(',')} FROM #{table} #{options} ;" }
   let(:raw_sql_results)   { { a: 1, b: 2, c: 3 } }
-
+  context 'connection to remote db' do
+    it 'passes with valid data' do
+      allow(RemoteDbConnector).to receive(:connected_to_remote_db?).and_return(true)
+      expect(RemoteDbConnector.connected_to_remote_db?).to eq(true)
+    end
+    it 'fails with empty db name variable' do
+      # allow(RemoteDbConnector).to receive(:connected_to_remote_db?)
+      ENV['DATABASE_NAME'] = ''
+      expect(RemoteDbConnector).to eq(false)
+    end
+  end
   context 'generates SQL query correctly' do
     example 'with the \'options\' string ' do
       RemoteDbConnector.generate_query(table, columns, options)
