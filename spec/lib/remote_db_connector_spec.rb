@@ -6,6 +6,8 @@ describe RemoteDbConnector do
   let(:table)             { FFaker::Lorem.word }
   let(:generated_query)   { "SELECT #{columns.join(',')} FROM #{table} #{options} ;" }
   let(:raw_sql_results)   { { a: 1, b: 2, c: 3 } }
+  let(:column_mappings)   { { a: 'foo', b: 'bar', c: 'baz' } }
+  let(:mapped_results)    { { 'foo' => 1, 'bar' => 2, 'baz' => 3 } }
   context 'connection to remote db' do
     it 'passes with valid data' do
       allow(RemoteDbConnector).to receive(:connected_to_remote_db?).and_return(true)
@@ -32,7 +34,6 @@ describe RemoteDbConnector do
       )
     end
   end
-
   context 'executes SQL query' do
     before(:each) do
       allow(RemoteDbConnector).to receive(:connected_to_remote_db?).and_return(true)
@@ -52,4 +53,9 @@ describe RemoteDbConnector do
       end
     end
   end
+
+  it 'mapps db and attribute columns' do 
+    RemoteDbConnector.map_column_names(raw_sql_results, column_mappings)
+    expect(RemoteDbConnector.mapped_results).to eq(mapped_results)
+  end 
 end

@@ -36,22 +36,11 @@ class RemoteDbConnector < ActiveRecord::Base
     def escape_sql(value)
       send(:sanitize_sql_array, value)
     end
-    
 
-
-
-    def map_column_names#(raw_results, column_mappings)
-
-      raw_results = { a: 1, b: 2, c: 3 }
-      column_mappings = { a: 'foo', b: 'bar', c: 'baz' }
-      puts "<<<<<<#{raw_results }"
-      puts "<<<<<<#{column_mappings }"
-
+    def map_column_names(raw_results, column_mappings)
       return unless raw_results.keys == column_mappings.keys
-      raw_results.keys.each {|k| raw_results[column_mappings[k]] = raw_results.delete(k)}
+      raw_results.keys.each { |k| raw_results[column_mappings[k]] = raw_results.delete(k) }
       @mapped_results = raw_results
-      puts ">>>>>>#{@mapped_results}"
-
     end
   end
   private_class_method :connect_to_remote_db
