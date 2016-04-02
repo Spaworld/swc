@@ -8,15 +8,16 @@ describe RemoteDbConnector do
   let(:raw_sql_results)   { { a: 1, b: 2, c: 3 } }
   let(:column_mappings)   { { a: 'foo', b: 'bar', c: 'baz' } }
   let(:mapped_results)    { { 'foo' => 1, 'bar' => 2, 'baz' => 3 } }
+  let(:connection_config) { {:adapter=>"foo", :encoding=>"bar", :pool=>5, :database=>"baz"} }
   context 'connection to remote db' do
     it 'passes with valid data' do
-      allow(RemoteDbConnector).to receive(:connected_to_remote_db?).and_return(true)
+      allow(RemoteDbConnector).to receive(:connection_config).and_return(connection_config)
+      ENV['DATABASE_NAME'] = connection_config.values[3]
       expect(RemoteDbConnector.connected_to_remote_db?).to eq(true)
     end
     it 'fails with empty db name variable' do
-      # allow(RemoteDbConnector).to receive(:connected_to_remote_db?)
-      ENV['DATABASE_NAME'] = ''
-      expect(RemoteDbConnector).to eq(false)
+      ENV['DATABASE_NAME'] = 'foo'
+      expect(RemoteDbConnector.connected_to_remote_db?).to eq(false)
     end
   end
   context 'generates SQL query correctly' do
@@ -54,8 +55,8 @@ describe RemoteDbConnector do
     end
   end
 
-  it 'mapps db and attribute columns' do 
+  it 'mapps db and attribute columns' do
     RemoteDbConnector.map_column_names(raw_sql_results, column_mappings)
     expect(RemoteDbConnector.mapped_results).to eq(mapped_results)
-  end 
+  end
 end
