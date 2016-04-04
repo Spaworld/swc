@@ -7,7 +7,7 @@ namespace :db do
     column_mappings = {
       ENV['ORDERS_ID']          => 'legacy_id',
       ENV['ORDERS_CUSTOMER_ID'] => 'channel_id',
-      ENV['ORDERS_PRICE']       => 'total_price',
+      ENV['ORDERS_PRICE']       => 'price_in_dollars',
       ENV['ORDERS_DATE']        => 'placement_date'
     }
     datetime_of_the_last_update = Order.last.created_at
@@ -16,6 +16,7 @@ namespace :db do
     return unless datetime_of_the_last_update < RemoteDbConnector.raw_results.last.ENV['ORDERS_DATE']
     RemoteDbConnector.map_column_names(RemoteDbConnector.raw_results, column_mappings)
     RemoteDbConnector.mapped_results.each do |hash|
+      next if
       Order.create(hash)
     end
   end
