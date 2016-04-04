@@ -1,5 +1,6 @@
 class Order < ActiveRecord::Base
   validates_presence_of :channel_id, :total_price, :placement_date, :legacy_id
+  validates_uniqueness_of :legacy_id
   validates :channel_id,  with: :channel_id_validation
   validates :total_price, with: :total_price_validation
 

@@ -10,8 +10,13 @@ namespace :db do
       ENV['ORDERS_PRICE']       => 'total_price',
       ENV['ORDERS_DATE']        => 'placement_date'
     }
+    datetime_of_the_last_update = Order.last.created_at
     RemoteDbConnector.generate_query(table, columns, options)
     RemoteDbConnector.execute_query(RemoteDbConnector.generated_query)
+    return unless datetime_of_the_last_update < RemoteDbConnector.raw_results.last.ENV['ORDERS_DATE']
     RemoteDbConnector.map_column_names(RemoteDbConnector.raw_results, column_mappings)
+    RemoteDbConnector.mapped_results.each do |hash|
+      Order.create(hash)
+    end
   end
 end
