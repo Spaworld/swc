@@ -1,6 +1,6 @@
 class RemoteDbConnector < ActiveRecord::Base
   self.abstract_class = true
-    
+
   class << self
     attr_accessor :raw_results, :mapped_results, :generated_query
 
@@ -38,8 +38,10 @@ class RemoteDbConnector < ActiveRecord::Base
     end
 
     def map_column_names(raw_results, column_mappings)
-      return unless raw_results.keys == column_mappings.keys
-      raw_results.keys.each { |k| raw_results[column_mappings[k]] = raw_results.delete(k) }
+      return unless raw_results.first.keys.sort == column_mappings.keys.sort
+      raw_results.map do |result|
+        result.keys.each { |k| result[column_mappings [k]] = result.delete(k) }
+      end
       @mapped_results = raw_results
     end
   end
