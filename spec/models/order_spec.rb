@@ -27,7 +27,7 @@ RSpec.describe Order, type: :model do
     end
 
     example '0 price_in_dollars' do
-      expect { create(:order, price_in_dollars: 0) }.to raise_error(ActiveRecord::RecordInvalid, 'Validation failed: Price in dollars must be greater than 0')
+      expect { create(:order, price_in_dollars: 0) }.to raise_error(ActiveRecord::RecordInvalid)
     end
 
     example 'empty placement_date' do
