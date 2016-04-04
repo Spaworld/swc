@@ -5,10 +5,10 @@ describe RemoteDbConnector do
   let(:columns)           { FFaker::Lorem.words }
   let(:table)             { FFaker::Lorem.word }
   let(:generated_query)   { "SELECT #{columns.join(',')} FROM #{table} #{options} ;" }
-  let(:raw_sql_results)   { { a: 1, b: 2, c: 3 } }
+  let(:raw_sql_results)   { [{ a: 1, b: 2, c: 3 }, { a: 4, b: 5, c: 6 }, { a: 7, b: 8, c: 9 }] }
   let(:column_mappings)   { { a: 'foo', b: 'bar', c: 'baz' } }
-  let(:mapped_results)    { { 'foo' => 1, 'bar' => 2, 'baz' => 3 } }
-  let(:connection_config) { {:adapter=>"foo", :encoding=>"bar", :pool=>5, :database=>"baz"} }
+  let(:mapped_results)    { [{ 'foo' => 1, 'bar' => 2, 'baz' => 3 }, { 'foo' => 4, 'bar' => 5, 'baz' => 6 }, { 'foo' => 7, 'bar' => 8, 'baz' => 9 }] }
+  let(:connection_config) { { :adapter => 'foo', :encoding => 'bar', :pool => 5, :database => 'baz'} }
   context 'connection to remote db' do
     it 'passes with valid data' do
       allow(RemoteDbConnector).to receive(:connection_config).and_return(connection_config)
