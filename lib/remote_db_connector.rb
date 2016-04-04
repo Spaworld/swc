@@ -44,6 +44,16 @@ class RemoteDbConnector < ActiveRecord::Base
       end
       @mapped_results = raw_results
     end
+
+    def finds_new_records?(new_record, stored_record, new_record_date_key)
+      if new_record.nil? || stored_record.nil?
+        true
+      elsif stored_record.created_at < new_record[new_record_date_key]
+        true
+      else
+        false
+      end
+    end
   end
   private_class_method :connect_to_remote_db
 end

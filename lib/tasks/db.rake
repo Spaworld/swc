@@ -10,14 +10,17 @@ namespace :db do
       ENV['ORDERS_PRICE']       => 'price_in_dollars',
       ENV['ORDERS_DATE']        => 'placement_date'
     }
-    datetime_of_the_last_update = Order.last.created_at
     RemoteDbConnector.generate_query(table, columns, options)
     RemoteDbConnector.execute_query(RemoteDbConnector.generated_query)
-    return unless datetime_of_the_last_update < RemoteDbConnector.raw_results.last.ENV['ORDERS_DATE']
     RemoteDbConnector.map_column_names(RemoteDbConnector.raw_results, column_mappings)
-    RemoteDbConnector.mapped_results.each do |hash|
-      next if
-      Order.create(hash)
+
+    if RemoteDbConnector.finds_new_records?(RemoteDbConnector.mapped_results.last, Order.last,'placement_date')
+      RemoteDbConnector.mapped_results.each_with_index do |hash, index|
+        Order.create(hash)
+        puts "created record ##{index}"
+      end
+    else
+      Rails.logger.info 'DB Connector: No new records found. Returning.'
     end
   end
 end
