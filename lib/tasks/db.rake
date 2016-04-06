@@ -23,4 +23,22 @@ namespace :db do
       Rails.logger.info 'DB Connector: No new records found. Returning.'
     end
   end
+
+  task pull_products: :environment do 
+    columnns = []
+    tables = []
+    options = ''
+    column_mappings = {}
+    RemoteDbConnector.generated_query(table, columns, options)
+    RemoteDbConnector.execute_query(RemoteDbConnector.generated_query)
+    RemoteDbConnector.map_column_names(RemoteDbConnector.raw_results, column_mappings)
+    if RemoteDbConnector.finds_new_records?(RemoteDbConnector.mapped_results, Product.last, 'placement_date')
+      RemoteDbConnector.mapped_results.each_with_index do |hash, index|
+        Product.create(hash)
+        puts "created order ##{index}"
+      end
+    else
+      Rails.logger.info 'DB Connector: No new records found. Rturning'
+    end
+  end
 end
