@@ -3,7 +3,7 @@ namespace :db do
   task pull_orders: :environment do
     columns = [ENV['ORDERS_CUSTOMER_ID'], ENV['ORDERS_PRICE'], ENV['ORDERS_DATE'], ENV['ORDERS_ID']]
     table = ENV['ORDERS_TABLE_NAME']
-    options = "WHERE #{ENV['ORDER_DETAILS_ORDERS_FOREIGN_KEY']} IN (#{ENV['SELECTED_CHANNELS']}) AND #{ENV['ORDERS_IS_RETURN']}=0"
+    options = "WHERE #{ENV['ORDERS_CHANNEL_ID']} IN (#{ENV['SELECTED_CHANNELS']}) AND #{ENV['ORDERS_IS_RETURN']}=0"
     column_mappings = {
       ENV['ORDERS_ID']          => 'legacy_id',
       ENV['ORDERS_CUSTOMER_ID'] => 'channel_id',
@@ -14,7 +14,7 @@ namespace :db do
     RemoteDbConnector.execute_query(RemoteDbConnector.generated_query)
     RemoteDbConnector.map_column_names(RemoteDbConnector.raw_results, column_mappings)
 
-    if RemoteDbConnector.finds_new_records?(RemoteDbConnector.mapped_results.last, Order.last,'placement_date')
+    if RemoteDbConnector.finds_new_records?(RemoteDbConnector.mapped_results.last, Order.last, 'placement_date')
       RemoteDbConnector.mapped_results.each_with_index do |hash, index|
         Order.create(hash)
         puts "created record ##{index}"
@@ -24,7 +24,7 @@ namespace :db do
     end
   end
 
-  task pull_products: :environment do 
+  task pull_products: :environment do
     columnns = []
     tables = []
     options = ''
