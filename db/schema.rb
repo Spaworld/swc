@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160330032038) do
+ActiveRecord::Schema.define(version: 20160406215712) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,5 +26,15 @@ ActiveRecord::Schema.define(version: 20160330032038) do
   end
 
   add_index "orders", ["legacy_id"], name: "index_orders_on_legacy_id", unique: true, using: :btree
+
+  create_table "products", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "legacy_id"
+    t.jsonb    "skus",       default: {}, null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "products", ["legacy_id"], name: "index_products_on_legacy_id", unique: true, using: :btree
 
 end

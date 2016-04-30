@@ -14,11 +14,8 @@ RSpec.describe Product, type: :model do
       expect { create(:product, name: '') }.to raise_error(ActiveRecord::RecordInvalid, 'Validation failed: Name can\'t be blank')
     end
 
-    example 'empty price in dollars' do
-      expect { create(:product, price_in_dollars: '')}.to raise_error(ActiveRecord::RecordInvalid, 'Validation')
-    end
-
-    example 'invalid price in dollars' do
+    example 'empty legacy_id' do
+      expect { create(:product, legacy_id: '') }.to raise_error(ActiveRecord::RecordInvalid, 'Validation failed: Legacy can\'t be blank')
     end
   end
 end

@@ -6,5 +6,6 @@ class CreateProducts < ActiveRecord::Migration
       t.jsonb   :skus, null: false, default: {}
       t.timestamps null: false
     end
+    add_index :products, :legacy_id, unique: true
   end
 end
