@@ -19,6 +19,7 @@ group :test do
   gem 'fantaskspec'
   gem 'ffaker', '~> 2.0'
   gem 'database_cleaner', '~> 1.5', '>= 1.5.1'
+  gem 'whiny_validation'
 end
 
 group :development, :test do

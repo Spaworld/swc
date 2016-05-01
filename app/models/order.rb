@@ -3,6 +3,7 @@ class Order < ActiveRecord::Base
   validates_uniqueness_of :legacy_id
   validates :channel_id,  with: :channel_id_validation
   validates :price_in_dollars, with: :price_validation
+  has_many  :products, through: :order_details
 
   def channel_id_validation
     unless ENV['SELECTED_CHANNELS'].include?(channel_id.to_s)
